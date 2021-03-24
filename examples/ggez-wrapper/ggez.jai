@@ -123,7 +123,3 @@ fromcstr :: (cstr: cstring) -> string {
   ret.count = c_style_strlen(xx cstr);
   return ret;
 }
-
-getms :: () -> float64 {
-  return cast(float64)(get_time()*1000);
-}
