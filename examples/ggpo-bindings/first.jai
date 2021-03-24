@@ -3,9 +3,8 @@
 window_width :: 800;
 window_height :: 600;
 
-skipframes := 0;
 main :: () {
-  ggpo_init();
+  init_ggpo();
 
   // create window
   window = create_window(window_name="nettest", width=window_width, height=window_height);
@@ -120,7 +119,7 @@ render :: () {
 
 
 
-ggpo_init :: () {
+init_ggpo :: () {
   ggpo_init_winsock();
 
   cmdargs := get_command_line_arguments();
@@ -262,6 +261,7 @@ players: [GGPO_PLAYERCOUNT]GGPOPlayer;
 
 window: HWND;
 stopgameloop: bool;
+skipframes: int;
 textures: struct {ship: Texture; };
 
 
