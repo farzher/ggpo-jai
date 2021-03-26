@@ -6,7 +6,7 @@ main :: () {
 
   // create window
   window = create_window(window_name="ggez", width=window_width, height=window_height);
-  simp.simp_init(window, window_width, window_height, render_width, render_height, windowed=true, vsync=false);
+  simp.simp_init(window, window_width, window_height, render_width, render_height, windowed=true, vsync=true);
 
   // load textures
   textures.ship = make_texture("data/ship.png");
@@ -16,6 +16,7 @@ main :: () {
     inputs();
     ggez_update();
     render();
+    ggez_idle();
   }
 }
 
@@ -102,7 +103,7 @@ init_ggez :: () {
   playerinfo.data = cmdargs.data + 3;
   playerinfo.count = 2;
 
-  ggez_init(gamestateptr=*gs, inputptr=*input, updatefn=update, localport=localport, playerinfo=playerinfo);
+  ggez_init(gamestateptr=*gs, inputptr=*input, updatefn=update, localport=localport, playerinfo=playerinfo, fps=60);
 }
 
 

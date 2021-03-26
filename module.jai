@@ -1,3 +1,5 @@
+// for documentation, checkout ggponet.h
+
 winsocklib :: #foreign_system_library "ws2_32"; // ggpo dependency
 WSADESCRIPTION_LEN :: 256;
 WSASYS_STATUS_LEN  :: 128;

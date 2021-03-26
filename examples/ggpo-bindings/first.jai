@@ -7,14 +7,14 @@ main :: () {
   init_ggpo();
 
   // create window
-  window = create_window(window_name="nettest", width=window_width, height=window_height);
+  window = create_window(window_name="GGPO in JAI", width=window_width, height=window_height);
   simp.simp_init(window, window_width, window_height, render_width, render_height, windowed=true, vsync=false);
 
   // load textures
   textures.ship = make_texture("data/ship.png");
 
   // game loop
-  // todo: this game loop sucks. but why?
+  // todo: this vectorwars game loop sucks. but why?
   next := getms();
   while !stopgameloop {
 
@@ -22,11 +22,19 @@ main :: () {
     ggpo_idle(ggpo, xx max(cast(float64)0, next-now-1));
     if(now >= next) {
       next += cast(float)1000/60;
+
       if inputs() then update();
       render();
+
+      for p, i: players {
+        if p.type == .GGPO_PLAYERTYPE_LOCAL continue;
+        stats: GGPONetworkStats;
+        ggpo_get_network_stats(ggpo, handles[i], *stats);
+        log("stats", i, stats);
+      }
+
       reset_temporary_storage();
     }
-
   }
 }
 
@@ -165,7 +173,7 @@ init_ggpo :: () {
   cb.advance_frame   = (flags: s32) -> bool #c_call { new_context: Context; push_context new_context {
     ggpo_synchronize_input(ggpo, *inputvalues, size_of(type_of(inputvalues)), *disconnect_flags);
     update();
-    log("advance_frame");
+    // log("advance_frame");
     return true;
   } };
   cb.on_event        = (event: *GGPOEvent) -> bool #c_call { new_context: Context; push_context new_context {
@@ -183,8 +191,8 @@ init_ggpo :: () {
 
   localport: u16 = xx to_integer(cmdargs[1]);
   // playercount: u8 = xx to_integer(cmdargs[2]);
-  ggpo_start_session(*ggpo, *cb, "nettest", num_players=GGPO_PLAYERCOUNT, input_size=size_of(Input), localport=localport);
-  // ggpo_start_synctest(*ggpo, *cb, "nettest", num_players=GGPO_PLAYERCOUNT, input_size=size_of(Input), 1);
+  ggpo_start_session(*ggpo, *cb, "GGPO in JAI", num_players=GGPO_PLAYERCOUNT, input_size=size_of(Input), localport=localport);
+  // ggpo_start_synctest(*ggpo, *cb, "GGPO in JAI", num_players=GGPO_PLAYERCOUNT, input_size=size_of(Input), 1);
   ggpo_set_disconnect_timeout(ggpo, 3000);
   ggpo_set_disconnect_notify_start(ggpo, 1000);
 
