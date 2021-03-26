@@ -1,5 +1,5 @@
 ggez_init :: (gamestateptr: *$GameState, inputptr: *$Input, updatefn: ()->(), localport:u16, playerinfo: []string, fps:u16=60) {
-  start_timestamp = getms(); // TODO: need to make sure this is syncronized
+  // start_timestamp = getms(); // TODO: need to make sure this is syncronized
 
   ggpo_init_winsock();
 
@@ -45,7 +45,10 @@ ggez_init :: (gamestateptr: *$GameState, inputptr: *$Input, updatefn: ()->(), lo
 
     if event.code == {
       // case .GGPO_EVENTCODE_CONNECTED_TO_PEER;
+      // case .GGPO_EVENTCODE_SYNCHRONIZED_WITH_PEER;
+      // case .GGPO_EVENTCODE_RUNNING;
       //   start_timestamp = getms();
+      //   log("start", start_timestamp);
 
       case .GGPO_EVENTCODE_TIMESYNC;
         // skipframes += event.timesync.frames_ahead;
@@ -86,17 +89,19 @@ ggez_init :: (gamestateptr: *$GameState, inputptr: *$Input, updatefn: ()->(), lo
 ggez_idle :: () {
   ggpo_idle(ggpo, 0);
 }
-ggez_update :: () {
+ggez_update :: () #expand {
+  `defer ggez_idle();
   // if skipframes > 0 {
   //   skipframes -= 1;
   //   return;
   // }
 
   if start_timestamp + currentframe*_msperframe < getms() {
-    if .GGPO_OK != ggpo_add_local_input(ggpo, handles[localplayerindex], _inputptr, sizeofinput) return;
-    if .GGPO_OK != ggpo_synchronize_input(ggpo, *inputvalues, size_of(type_of(inputvalues)), *disconnect_flags) return;
-
-    update_gs();
+    if .GGPO_OK == ggpo_add_local_input(ggpo, handles[localplayerindex], _inputptr, sizeofinput) {
+      if .GGPO_OK == ggpo_synchronize_input(ggpo, *inputvalues, size_of(type_of(inputvalues)), *disconnect_flags) {
+        update_gs();
+      }
+    }
   }
 }
 ggez_inputs :: () -> type_of(inputvalues) {return inputvalues; }

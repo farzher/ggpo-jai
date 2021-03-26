@@ -11,12 +11,14 @@ main :: () {
   // load textures
   textures.ship = make_texture("data/ship.png");
 
+  // init gamestate
+  for * p: gs.players  p.xy = .{.5, .5};
+
   // game loop
   while !stopgameloop {
     inputs();
     ggez_update();
     render();
-    ggez_idle();
   }
 }
 
