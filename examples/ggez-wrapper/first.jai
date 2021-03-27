@@ -1,3 +1,6 @@
+// example of using GGPO in jai
+// usage: run2p.bat
+
 window_width :: 800;
 window_height :: 600;
 
@@ -5,7 +8,7 @@ main :: () {
   init_ggez();
 
   // create window
-  window = create_window(window_name="ggez", width=window_width, height=window_height);
+  window = create_window(window_name="GGPO in JAI", width=window_width, height=window_height);
   simp.simp_init(window, window_width, window_height, render_width, render_height, windowed=true, vsync=true);
 
   // load textures

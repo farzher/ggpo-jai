@@ -1,4 +1,7 @@
-// for documentation, checkout ggponet.h
+// jai bindings to GGPO netcode
+//
+// for usage examples, checkout examples
+// for GGPO documentation, checkout ggponet.h
 
 winsocklib :: #foreign_system_library "ws2_32"; // ggpo dependency
 WSADESCRIPTION_LEN :: 256;

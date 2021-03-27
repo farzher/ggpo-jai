@@ -1,3 +1,5 @@
+// example of using GGPO bindings in jai
+// usage: run2p.bat
 // todo: this example sucks
 
 window_width :: 800;
