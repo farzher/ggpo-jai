@@ -19,6 +19,7 @@ main :: () {
 
   // game loop
   while !stopgameloop {
+    ggez_idle();
     inputs();
     ggez_update();
     render();

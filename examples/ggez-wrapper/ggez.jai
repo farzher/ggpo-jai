@@ -89,8 +89,8 @@ ggez_init :: (gamestateptr: *$GameState, inputptr: *$Input, updatefn: ()->(), lo
 ggez_idle :: () {
   ggpo_idle(ggpo, 0);
 }
-ggez_update :: () #expand {
-  `defer ggez_idle();
+ggez_update :: () {
+  // `defer ggez_idle();
   // if skipframes > 0 {
   //   skipframes -= 1;
   //   return;
